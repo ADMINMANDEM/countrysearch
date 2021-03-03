@@ -1,19 +1,34 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1 id="top">Here are all the countries:</h1>
+    <vue-fab mainBtnColor="#3599DB"
+    v-scroll-to="{ el: '#top' }"
+    icon="expand_less">
+    </vue-fab>
+    <CountryTable country></CountryTable>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import CountryInfo from "@/components/CountryInfo"
+import CountryTable from "@/components/CountryTable";
+import Vue from "vue";
+import VueScrollTo from "vue-scrollto";
+Vue.use(VueScrollTo, {
+  container: "body",
+  duration: 500,
+  easing: "ease"
+});
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    // CountryInfo,
+    CountryTable
   }
 }
+
+
 </script>
 
 <style>
@@ -25,4 +40,5 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
 </style>
