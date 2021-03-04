@@ -36,7 +36,7 @@
       <h3>Bordering Countries: </h3>
       <ul v-if="country.borders.length">
         <li v-for="border in country.borders" v-bind:key="border">
-          <a href="#" @click="clearSearch" v-scroll-to="{ el: '#' + border }">{{ border }}</a>
+          <a href="#" @click="clearSearch" v-scroll-to="{ el: '#' + border }">{{ border }} - ({{ countryLabel(border) }})</a>
         </li>
       </ul>
       <p v-else>This country is an island!</p>
@@ -47,6 +47,7 @@
 <script>
 import Vue from "vue";
 import VueScrollTo from "vue-scrollto";
+import CountryService from "@/services/CountryService";
 Vue.use(VueScrollTo, {
   container: "body",
   duration: 500,
@@ -60,10 +61,35 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      countryByCode: []
+    }
+  },
   methods: {
+
     clearSearch() {
       this.$emit('clear-search')
+    },
+    countryLabel (code) {
+      function search(nameKey, myArray) {
+        for (var i = 0; i < myArray.length; i++) {
+          if (myArray[i].alpha3Code === nameKey) {
+            return myArray[i].name;
+          }
+        }
+      }
+      return search(code, this.countryByCode)
     }
+  },
+  created() {
+    CountryService.getCountryByCode()
+      .then(response => {
+        this.countryByCode = response.data
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 }
 

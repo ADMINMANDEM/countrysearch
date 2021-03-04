@@ -43,7 +43,7 @@ export default {
       }
     }
   } ,
-  created() {{
+  created() {
     CountryService.getCountries()
       .then(response => {
         this.countries = response.data
@@ -51,7 +51,7 @@ export default {
       .catch(error => {
         console.log(error)
       })
-  }},
+  },
   methods: {
     clearSearch() {
       this.searchQuery = ''

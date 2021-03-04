@@ -12,5 +12,8 @@ const apiClient = axios.create({
 export default {
   getCountries() {
     return apiClient.get('/all')
+  },
+  getCountryByCode() {
+    return apiClient.get('/all?fields=name;alpha3Code')
   }
 }
