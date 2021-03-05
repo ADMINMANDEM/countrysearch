@@ -33,6 +33,20 @@
           {{ languages.name }}
         </li>
       </ul>
+      <h3>On a Map:</h3>
+      <p>
+        <GmapMap
+          :center="{lat: country.latlng[0], lng: country.latlng[1]}"
+          :zoom="4"
+          map-type-id="roadmap"
+          style="width: 1000px; height: 500px; margin: 0 auto"
+        >
+          <GmapMarker
+            v-if="country.area <= 100000"
+            :position="{lat: country.latlng[0], lng: country.latlng[1]}"
+          />
+        </GmapMap>
+      </p>
       <h3>Bordering Countries: </h3>
       <ul v-if="country.borders.length">
         <li v-for="border in country.borders" v-bind:key="border">
@@ -48,6 +62,8 @@
 import Vue from "vue";
 import VueScrollTo from "vue-scrollto";
 import CountryService from "@/services/CountryService";
+
+
 Vue.use(VueScrollTo, {
   container: "body",
   duration: 500,
@@ -63,11 +79,11 @@ export default {
   },
   data() {
     return {
-      countryByCode: []
+      countryByCode: [],
+      center: {}
     }
   },
   methods: {
-
     clearSearch() {
       this.$emit('clear-search')
     },
@@ -80,8 +96,20 @@ export default {
         }
       }
       return search(code, this.countryByCode)
+    },
+    smallCountryPin() {
+
     }
   },
+  // mounted() {
+  //   // At this point, the child GmapMap has been mounted, but
+  //   // its map has not been initialized.
+  //   // Therefore we need to write mapRef.$mapPromise.then(() => ...)
+  //
+  //   this.$refs.mapRef.$mapPromise.then((map) => {
+  //     map.panTo({lat: 1.38, lng: 103.80})
+  //   })
+  // },
   created() {
     CountryService.getCountryByCode()
       .then(response => {
@@ -114,5 +142,8 @@ li {
 }
 a {
   color: #42b983;
+}
+div {
+  margin: 40px 0 0;
 }
 </style>
