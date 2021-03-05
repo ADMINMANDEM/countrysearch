@@ -33,24 +33,11 @@
           {{ languages.name }}
         </li>
       </ul>
-      <h3>On a Map:</h3>
-      <p>
-        <GmapMap
-          :center="{lat: country.latlng[0], lng: country.latlng[1]}"
-          :zoom="4"
-          map-type-id="roadmap"
-          style="width: 1000px; height: 500px; margin: 0 auto"
-        >
-          <GmapMarker
-            v-if="country.area <= 100000"
-            :position="{lat: country.latlng[0], lng: country.latlng[1]}"
-          />
-        </GmapMap>
-      </p>
+      <md-button :to="{ name: 'CountryDetails', params: { alpha3Code: country.alpha3Code } }" class="md-raised md-primary">More</md-button>
       <h3>Bordering Countries: </h3>
       <ul v-if="country.borders.length">
         <li v-for="border in country.borders" v-bind:key="border">
-          <a href="#" @click="clearSearch" v-scroll-to="{ el: '#' + border }">{{ border }} - ({{ countryLabel(border) }})</a>
+          <md-button href="#" @click="clearSearch" v-scroll-to="{ el: '#' + border }" class="md-primary">{{ border }} - ({{ countryLabel(border) }})</md-button>
         </li>
       </ul>
       <p v-else>This country is an island!</p>
@@ -97,9 +84,6 @@ export default {
       }
       return search(code, this.countryByCode)
     },
-    smallCountryPin() {
-
-    }
   },
   // mounted() {
   //   // At this point, the child GmapMap has been mounted, but
